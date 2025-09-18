@@ -1,0 +1,21 @@
+# See: https://asimov-specs.github.io/module-manifest/
+name: xai
+label: xAI
+title: ASIMOV xAI Module
+summary: LLM inference powered by xAI
+links:
+  - https://github.com/asimov-modules/asimov-xai-module
+  - https://crates.io/crates/asimov-xai-module
+provides:
+  programs:
+    - asimov-xai-prompter
+config:
+  variables:
+    - name: api-key
+      environment: XAI_API_KEY
+    - name: endpoint
+      environment: XAI_API_ENDPOINT
+      default: https://api.x.ai
+    - name: model
+      environment: XAI_MODEL
+      default: grok-3-mini
