@@ -104,5 +104,5 @@ pub fn main() -> Result<SysexitsError, Box<dyn Error>> {
         output.write_all(text.as_bytes()).unwrap();
     }
 
-    Ok(EX_UNAVAILABLE)
+    Ok(EX_OK)
 }
