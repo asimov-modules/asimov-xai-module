@@ -15,6 +15,9 @@ struct Options {
     #[clap(flatten)]
     flags: StandardOptions,
 
+    #[clap(long, short = 'm')]
+    model: Option<String>,
+
     input: Option<String>,
     output: Option<String>,
 }
@@ -59,10 +62,12 @@ pub fn main() -> Result<SysexitsError, Box<dyn Error>> {
     else {
         return Ok(EX_CONFIG); // not configured
     };
-    let Ok(model) = manifest
-        .variable("model", None)
-        .inspect_err(|e| eprintln!("failed to read configured model: {e}"))
-    else {
+    let Some(model) = options.model.or_else(|| {
+        manifest
+            .variable("model", None)
+            .inspect_err(|e| eprintln!("failed to read configured model: {e}"))
+            .ok()
+    }) else {
         return Ok(EX_CONFIG); // not configured
     };
 
