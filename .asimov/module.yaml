@@ -2,7 +2,7 @@
 name: xai
 label: xAI
 title: ASIMOV xAI Module
-summary: LLM inference powered by xAI
+summary: LLM inference powered by xAI.
 links:
   - https://github.com/asimov-modules/asimov-xai-module
   - https://crates.io/crates/asimov-xai-module
