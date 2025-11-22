@@ -31,7 +31,7 @@ cargo install asimov-xai-module
 ## 👉 Examples
 
 ```bash
-asimov-xai-prompter
+echo "Why is the sky blue?" | asimov-xai-prompter
 ```
 
 ## ⚙ Configuration
