@@ -3,11 +3,11 @@
 #[cfg(not(feature = "std"))]
 compile_error!("asimov-xai-prompter requires the 'std' feature");
 
+use anyhow::{Context as _, Result};
 use asimov_module::SysexitsError::{self, *};
-use asimov_module::tracing;
 use clap::Parser;
 use clientele::StandardOptions;
-use std::{error::Error, io::Read};
+use std::io::Read;
 
 /// asimov-xai-prompter
 #[derive(Debug, Parser)]
@@ -22,7 +22,7 @@ struct Options {
     output: Option<String>,
 }
 
-pub fn main() -> Result<SysexitsError, Box<dyn Error>> {
+pub fn main() -> Result<SysexitsError> {
     // Load environment variables from `.env`:
     asimov_module::dotenv().ok();
 
@@ -77,20 +77,18 @@ pub fn main() -> Result<SysexitsError, Box<dyn Error>> {
 
     let input = if let Some(input) = options.input {
         let file = std::path::Path::new(&input);
-        std::fs::read_to_string(file)
-            .inspect_err(|e| tracing::error!("unable to read input file: {e}"))?
+        std::fs::read_to_string(file).context("unable to read input file")?
     } else {
         let mut buf = String::new();
         std::io::stdin()
             .read_to_string(&mut buf)
-            .inspect_err(|e| tracing::error!("unable to read STDIN: {e}"))?;
+            .context("unable to read STDIN")?;
         buf.trim().to_string()
     };
 
     let mut output: Box<dyn std::io::Write> = if let Some(output) = options.output {
         let file = std::path::Path::new(&output);
-        let out = std::fs::File::create(file)
-            .inspect_err(|e| tracing::error!("unable to open output file: {e}"))?;
+        let out = std::fs::File::create(file).context("unable to open output file")?;
         Box::new(out)
     } else {
         let out = std::io::stdout().lock();
@@ -103,10 +101,11 @@ pub fn main() -> Result<SysexitsError, Box<dyn Error>> {
         .api_key(api_key)
         .build();
 
-    let response = asimov_xai_module::generate(&input, &options)?;
+    let response =
+        asimov_xai_module::generate(&input, &options).context("failed to generate response")?;
 
     for text in response {
-        output.write_all(text.as_bytes()).unwrap();
+        output.write_all(text.as_bytes())?;
     }
 
     Ok(EX_OK)
