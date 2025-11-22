@@ -13,10 +13,10 @@ provides:
 config:
   variables:
     - name: api-key
-      environment: XAI_API_KEY
+      environment: ASIMOV_XAI_API_KEY
     - name: endpoint
-      environment: XAI_API_ENDPOINT
+      environment: ASIMOV_XAI_API_ENDPOINT
       default: https://api.x.ai
     - name: model
-      environment: XAI_MODEL
+      environment: ASIMOV_XAI_MODEL
       default: grok-3-mini

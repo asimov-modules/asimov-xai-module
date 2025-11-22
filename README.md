@@ -45,15 +45,15 @@ asimov module config xai
 Or through environment variables
 
 ```bash
-export XAI_API_KEY="..."
+export ASIMOV_XAI_API_KEY="..."
 ```
 
 ### Optional configuration
 
-| Name       | Environment Variable | Default            |
-| ---------- | -------------------- | ------------------ |
-| `endpoint` | `XAI_API_ENDPOINT`   | `https://api.x.ai` |
-| `model`    | `XAI_MODEL`          | `grok-3-mini`      |
+| Name       | Environment Variable      | Default            |
+| ---------- | ------------------------- | ------------------ |
+| `endpoint` | `ASIMOV_XAI_API_ENDPOINT` | `https://api.x.ai` |
+| `model`    | `ASIMOV_XAI_MODEL`        | `grok-3-mini`      |
 
 ## 📚 Reference
 
