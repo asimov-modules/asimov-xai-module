@@ -15,8 +15,13 @@ struct Options {
     #[clap(flatten)]
     flags: StandardOptions,
 
+    /// Choose which model to use.
     #[clap(long, short = 'm')]
     model: Option<String>,
+
+    /// Maximum number of tokens to generate.
+    #[clap(long)]
+    max_tokens: Option<usize>,
 
     input: Option<String>,
     output: Option<String>,
@@ -99,6 +104,7 @@ pub fn main() -> Result<SysexitsError> {
         .endpoint(endpoint)
         .model(model)
         .api_key(api_key)
+        .maybe_max_tokens(options.max_tokens)
         .build();
 
     let response =
